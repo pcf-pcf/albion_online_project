@@ -6,8 +6,12 @@ import os
 
 ### DECLARACAO ###
 #T4: HIDE, ORE, WOOD, ROCK, FIBER, PLANKS
-itens_t4 = ["https://bit.ly/2LR3zag","https://bit.ly/2XibQcy","https://bit.ly/2LN0nfw","https://bit.ly/3ebMSm3","https://bit.ly/2WS9YIs","https://bit.ly/2ZoFwHs"]
-itens_t5 = ["https://bit.ly/2TORiHM", "https://bit.ly/2zu8jA9", "https://bit.ly/2XyPTGc", "https://bit.ly/3ekDHQ6", "https://bit.ly/2X9I9M4","https://bit.ly/3gumaXO"]
+base = 'https://www.albion-online-data.com/api/v2/stats/prices/'
+_tier = ['ERRO','ERRO','T2','T3','T4','T5','T6','T6','T7','T8']
+recursos =  ['_HIDE?', '_ORE?', '_WOOD?', '_ROCK?', '_FIBER?', '_PLANKS?', '_CLOTH?', '_LEATHER?', '_METALBAR?']
+localizacao = 'locations=Bridgewatch,Fort%20Sterling,Lymhurst,Martlock,Thetford&qualities=1'
+link = ''
+
 entry = {}
 continuar = 0
 i = 0
@@ -27,20 +31,18 @@ while continuar != 'q':
     destinos= [brid, fort, lymb,mart,thet]
     #COMEÇANDO
     os.system('clear')
-    recurso = int(input ("<0> HIDE | <1> ORE | <2> WOOD | <3> ROCK | <4> FIBER | <5> PLANKS\n\n\nEscolha o recurso:\n>"))
-    if recurso > 5:
+    recurso = int(input ("<0> HIDE | PELEGO \n<1> ORE | MINERIO\n<2> WOOD | MADEIRA\n<3> ROCK | PEDRA\n<4> FIBER | FIBRA\n<5> PLANKS | TABUAS\n<6> CLOTH | TECIDO\n<7> LEATHER | COURO\n<8> METALBAR | BARRA DE METAL\n<9> STONEBLOCK | BLOCO DE PEDRA\n\nEscolha o recurso:\n>"))
+    if recurso > 9:
         print("Valor invalido")
         break
     ### JSON ###
     composicao = ['ORIGEM', 'ITEM', 'LUCRO', 'DESTINO']
-    tier = int(input("Tier? <4> <5>\n>"))
-    if tier == 4:
-        url = urllib.request.urlopen(itens_t4[recurso])
-    elif tier == 5:
-        url = urllib.request.urlopen(itens_t5[recurso])
-    elif tier >= 6 or tier < 5: 
+    tier = int(input("Tier? <2> <3> <4> <5> <6> <7> <8>\n>"))
+    if tier > 9 or tier < 2 or tier == 0 or tier == 1: 
         print("Tier invalido. Finalizando")
         break
+    link = base + str(_tier[tier]) + str(recursos[recurso]) + localizacao
+    url = urllib.request.urlopen(link)
     parser = ijson.parse(url)
 
     for prefix, event, value in parser:
